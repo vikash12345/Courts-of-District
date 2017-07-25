@@ -25,3 +25,10 @@
 // called "data.sqlite" in the current working directory which has at least a table
 // called "data".
 ?>
+<?
+require 'scraperwiki.php';
+require 'scraperwiki/simple_html_dom.php';
+$html = scraperwiki::scrape("http://202.61.43.40:8080/index.php?r=site%2Fsearchbyvalue&page=1");
+$dom = new simple_html_dom();
+print_r($dom->find("table.list"));
+?>
