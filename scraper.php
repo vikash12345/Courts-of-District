@@ -1,36 +1,39 @@
 <?
-// This is a template for a PHP scraper on morph.io (https://morph.io)
-// including some code snippets below that you should find helpful
 
-// require 'scraperwiki.php';
-// require 'scraperwiki/simple_html_dom.php';
-//
-// // Read in a page
-// $html = scraperwiki::scrape("http://foo.com");
-//
-// // Find something on the page using css selectors
-// $dom = new simple_html_dom();
-// $dom->load($html);
-// print_r($dom->find("table.list"));
-//
-// // Write out to the sqlite database using scraperwiki library
-// scraperwiki::save_sqlite(array('name'), array('name' => 'susan', 'occupation' => 'software developer'));
-//
-// // An arbitrary query against the database
-// scraperwiki::select("* from data where 'name'='peter'")
-
-// You don't have to do things with the ScraperWiki library.
-// You can use whatever libraries you want: https://morph.io/documentation/php
-// All that matters is that your final data is written to an SQLite database
-// called "data.sqlite" in the current working directory which has at least a table
-// called "data".
-?>
-<?
 require 'scraperwiki.php';
 require 'scraperwiki/simple_html_dom.php';
-$html = scraperwiki::scrape("http://202.61.43.40:8080/index.php?r=site%2Fsearchbyvalue&page=1");
-$dom = new simple_html_dom();
-$dom->load($html);
-print_r($dom);
 
+$site = 'http://202.61.43.40:8080/index.php?r=site%2Fsearchbyvalue&page=';
+//This is for Pagination 
+for($page = 0; $page < 1; $page++)
+    {
+        $FinalURL = $site . $page;
+        $html = file_get_html($FinalURL);
+    }
+
+if($html ==true)
+{
+//This is for Table Scrapping
+foreach($html->find("//*[@id='w0']/table/tbody/tr") as $element) 
+	{
+
+		if($element)
+	{
+
+	echo 	$num   = $element->find("td", 0);
+	echo	$courtname  = $element->find("td", 1);
+	echo	$caseno  = $element->find("td", 2);
+	echo	$status  = $element->find("td", 3);
+	$href = $element->find(".//td/button", 0);
+
+	if(is_object($href))
+	{
+		 $urlbutton = $href->value;
+		 echo $urlbutton;
+	}
+	}
+	}}
+	else{
+		$html = file_get_html($FinalURL);
+	}
 ?>
